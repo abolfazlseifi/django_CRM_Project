@@ -36,7 +36,7 @@ def register(request):
         password = register_form.cleaned_data.get('password')
         email = register_form.cleaned_data.get('email')
         User.objects.create_user(username=user_name, email=email, password=password)
-        return redirect('/login')
+        return redirect('account/login.html')
 
     context = {
         'register_form': register_form

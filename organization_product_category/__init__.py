@@ -1,0 +1,1 @@
+default_app_config = 'organization_product_category.apps.OrganizationProductCategoryConfig'
