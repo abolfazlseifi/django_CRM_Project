@@ -33,7 +33,7 @@ def product_detail(request, *args, **kwargs):
 
     product = Product.objects.get_by_id(product_id)
 
-    print(product.tag_set.all())
+    # print(product.tag_set.all())
 
     if product is None or not product.active:
         raise Http404('محصول مورد نظر یافت نشد')

@@ -48,7 +48,7 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='قیمت')
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True, verbose_name='تصویر')
     active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
-    machine = models.ManyToManyField(OrganizationMachin,blank=True,verbose_name="ماشین های مورد نیاز")
+    # machine = models.ManyToManyField(OrganizationMachin,blank=True,verbose_name="ماشین های مورد نیاز")
     categories = models.ManyToManyField(ProductCategory, blank=True, verbose_name="دسته بندی ها")
 
     objects = ProductsManager()
