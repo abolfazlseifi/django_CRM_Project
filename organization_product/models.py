@@ -2,8 +2,8 @@ from django.db.models import Q
 from django.db import models
 import os
 
+# from organization_machine.models import OrganizationMachin
 from organization_product_category.models import ProductCategory
-from organization_machine.models import OrganizationMachin
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
