@@ -6,7 +6,7 @@ from .models import ProductCategory
 # Register your models here.
 
 class ProductCategoryAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'name']
+    list_display = ['__str__']
 
     class Meta:
         model = ProductCategory
