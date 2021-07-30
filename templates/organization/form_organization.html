@@ -1,2 +1,44 @@
 {% extends 'shared/_MainLayout.html' %}
 {% load static %}
+
+{% block content %}
+
+    <div class="container">
+        <section id="form"><!--form-->
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-1">
+                    <div class="signup-form"><!--sign up form-->
+                        <h2>تعریف سازمان</h2>
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <label for="province_name">نام استان</label>
+                            <input type="text" id="province_name" name="province_name" placeholder="نام استان">
+                            <label for="organization_name">نام سازمان</label>
+                            <input type="text" id="organization_name" name="organization_name" placeholder="نام سازمان">
+                            <label for="organization_phone">شماره تلفن سازمان</label>
+                            <input type="text" id="organization_phone" name="organization_phone" placeholder="شماره تلفن سازمان">
+                            <label for="organization_staff">تعداد کرگران</label>
+                            <input type="text" id="organization_staff" name="organization_staff" placeholder="تعداد کارگران">
+                            <label for="manufactured_product">محصولات تولیدی</label>
+                            <input type="text" id="manufactured_product" name="manufactured_product" placeholder="محصولات تولیدی">
+                            <label for="personnel_name">کاربر ثبت کننده</label>
+                            <input type="text" id="personnel_name" name="personnel_name" placeholder="کاربر ثبت کننده">
+                            <label for="organization_name">نام سازمان</label>
+                            <input type="text" id="organization_name" name="organization_name" placeholder="نام سازمان">
+                            <label for="personnel_mobile">شماره همراه کاربر</label>
+                            <input type="text" id="personnel_mobile" name="personnel_mobile" placeholder="شماره همراه کاربر">
+                            <label for="personnel_email">ایمیل سازمان</label>
+                            <input type="text" id="personnel_email" name="personnel_email" placeholder="ایمیل سازمان">
+                            <button type="submit" class="btn btn-default">ثبت نام</button>
+
+                        </form>
+                    </div><!--/sign up form-->
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--/form-->
+
+
+{% endblock %}
