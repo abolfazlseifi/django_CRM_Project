@@ -85,10 +85,17 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/">خـانه</a></li>
                             <li><a href="/products">محصولات</a></li>
-                            <li class="dropdown"><a href="#">اخبـار<i class="fa fa-angle-down"></i></a>
+                            <li class="dropdown"><a href="#">سازمانها<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
-                                    <li><a href="blog.html">آخریـن اخبـار</a></li>
-                                    <li><a href="blog-single.html">صفحـه خبـر</a></li>
+                                    {% if  request.user.is_authenticated %}
+                                    <li><a href="blog.html">فرم ثبت محصول</a></li>
+                                    <li><a href="blog.html">لیست محصولات سازمان ها</a></li>
+                                    <li><a href="blog-single.html">پیگیری</a></li>
+                                    <li><a href="blog-single.html">فاکتور/پیش فاکتور</a></li>
+                                    {% else %}
+                                    <li><a href="blog-single.html">سازمان های همکار</a></li>
+                                    {% endif %}
+
                                 </ul>
                             </li>
                             <li><a href="About.html">درباره مـا</a></li>

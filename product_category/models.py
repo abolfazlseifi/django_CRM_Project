@@ -1,5 +1,5 @@
 from django.db import models
-
+# from product.models import Product
 
 # Create your models here.
 
@@ -7,6 +7,7 @@ from django.db import models
 class ProductCategory(models.Model):
     title = models.CharField(max_length=150, verbose_name='عنوان')
     name = models.CharField(max_length=150, verbose_name='عنوان در URL')
+    # product = models.ManyToManyField(Product,blank=True,verbose_name='محصولات')
 
     class Meta:
         verbose_name = 'دسته بندی'

@@ -6,8 +6,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('organization_product', '0003_remove_product_machine'),
-        ('organization_machine', '0001_initial'),
+        ('product', '0003_remove_product_machine'),
+        ('organization', '0001_initial'),
     ]
 
     operations = [
@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='organizationmachin',
             name='products',
-            field=models.ManyToManyField(blank=True, to='organization_product.Product', verbose_name='محصولات'),
+            field=models.ManyToManyField(blank=True, to='product.Product', verbose_name='محصولات'),
         ),
         migrations.AddField(
             model_name='organizationmachin',

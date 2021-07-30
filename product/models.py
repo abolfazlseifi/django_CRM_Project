@@ -2,8 +2,7 @@ from django.db.models import Q
 from django.db import models
 import os
 
-# from organization_machine.models import OrganizationMachin
-from organization_product_category.models import ProductCategory
+from product_category.models import ProductCategory
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -48,7 +47,6 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='قیمت')
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True, verbose_name='تصویر')
     active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
-    # machine = models.ManyToManyField(OrganizationMachin,blank=True,verbose_name="ماشین های مورد نیاز")
     categories = models.ManyToManyField(ProductCategory, blank=True, verbose_name="دسته بندی ها")
 
     objects = ProductsManager()

@@ -26,7 +26,8 @@ urlpatterns = [
     path('header', header, name="header"),
     path('footer', footer, name="footer"),
     path('', include('user_accounts.urls')),
-    path('',include('organization_product.urls'))
+    path('', include('product.urls')),
+    path('', include('organization.urls')),
 ]
 
 

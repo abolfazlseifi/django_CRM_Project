@@ -41,9 +41,9 @@ INSTALLED_APPS = [
 
     # our application
     'user_accounts',
-    'organization_product',
-    'organization_product_category',
-    'organization_machine',
+    'product',
+    'product_category',
+    'organization',
 ]
 
 MIDDLEWARE = [

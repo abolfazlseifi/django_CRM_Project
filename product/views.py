@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from .models import Product
 from django.http import Http404
-from organization_product_category.models import ProductCategory
+from product_category.models import ProductCategory
 
 
 # Create your views here.
