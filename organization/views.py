@@ -1,14 +1,22 @@
-from django.shortcuts import render, redirect
-from django.views.generic import ListView, DetailView,CreateView
-from . import models,forms
-# Create your views here.
-from .models import Organization
+from django.contrib import messages
+from django.views.generic import ListView, DetailView, CreateView
+
+from . import models, forms
 
 
 class Organization_Form(CreateView):
     model = models.Organization
     form_class = forms.OrganizationForm
     template_name = 'organization/form_organization.html'
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+    # def form_invalid(self, form):
+    #     messages.info(self.request, form.errors)
+    #     return super().form_invalid(form)
+
 
 class Organization_List(ListView):
     model = models.Organization
@@ -17,8 +25,10 @@ class Organization_List(ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
+
         if not self.request.user.is_superuser:
-            qs = qs.filter(expert_creator=self.request.user)
+            qs = qs.filter(creator=self.request.user)
+
         return qs
 
 class Organization_Detail(DetailView):
