@@ -17,15 +17,25 @@
                             <label for="organization_name">نام سازمان</label>
                             <input type="text" id="organization_name" name="organization_name" placeholder="نام سازمان">
                             <label for="organization_phone">شماره تلفن سازمان</label>
-                            <input type="text" id="organization_phone" name="organization_phone" placeholder="شماره تلفن سازمان">
+                            <input type="text" id="organization_phone" name="organization_phone"
+                                   placeholder="شماره تلفن سازمان">
                             <label for="organization_staff">تعداد کرگران</label>
-                            <input type="text" id="organization_staff" name="organization_staff" placeholder="تعداد کارگران">
-                            <label for="manufactured_product">محصولات تولیدی</label>
-                            <input type="text" id="manufactured_product" name="manufactured_product" placeholder="محصولات تولیدی">
+                            <input type="text" id="organization_staff" name="organization_staff"
+                                   placeholder="تعداد کارگران">
+                            <label for="manufactured_product" class="form-label">محصولات تولیدی</label>
+                            <select id='manufactured_product' name='manufactured_product' style="text-align: right;"
+                                    class="form-select" multiple>
+                                {% for item in form.fields.manufactured_product.queryset %}
+                                    {% if item %}
+                                        <option value="{{ item.pk }}">{{ item }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
                             <label for="personnel_name">کاربر ثبت کننده</label>
                             <input type="text" id="personnel_name" name="personnel_name" placeholder="کاربر ثبت کننده">
                             <label for="personnel_mobile">شماره همراه کاربر</label>
-                            <input type="text" id="personnel_mobile" name="personnel_mobile" placeholder="شماره همراه کاربر">
+                            <input type="text" id="personnel_mobile" name="personnel_mobile"
+                                   placeholder="شماره همراه کاربر">
                             <label for="personnel_email">ایمیل سازمان</label>
                             <input type="text" id="personnel_email" name="personnel_email" placeholder="ایمیل سازمان">
                             <button type="submit" class="btn btn-default">ثبت نام</button>

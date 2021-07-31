@@ -27,7 +27,8 @@
                                                 <tr>
                                                     <td>{{forloop.counter}}</td>
                                                     <td>
-                                                        <a style='text-decoration: none; color: red;' href="{% url 'organization:detail' item.pk %}">{{item.organization_name}}</a>
+{#                                                        <a style='text-decoration: none; color: red;' href="{% url 'organization:detail' item.pk %}">{{item.organization_name}}</a>#}
+                                                        <a style='text-decoration: none; color: red;' href="#">{{item.organization_name}}</a>
                                                     </td>
                                                     <td>{{item.personnel_name}}</td>
                                                     <td>{{item.creator}}</td>
@@ -39,6 +40,7 @@
                                         </tbody>
                                     </table>
                                 </div>
+
 
                         <div class="clearfix"></div>
                         <ul class="pagination">

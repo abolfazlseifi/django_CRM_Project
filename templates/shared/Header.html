@@ -88,13 +88,13 @@
                             <li class="dropdown"><a href="#">سازمانها<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     {% if  request.user.is_authenticated %}
-                                    <li><a href="form">تعریف سازمان</a></li>
-                                        <li><a href="list">سازمان های همکار</a></li>
-                                    <li><a href="detail">محصولات سازمان ها</a></li>
-                                    <li><a href="blog-single.html">پیگیری</a></li>
-                                    <li><a href="blog-single.html">فاکتور/پیش فاکتور</a></li>
+                                        <li><a href="form">تعریف سازمان</a></li>
+                                        <li><a href="{% url 'organization:list' %}">سازمان های همکار</a></li>
+{#                                        <li><a href="detail">محصولات سازمان ها</a></li>#}
+                                        <li><a href="blog-single.html">پیگیری</a></li>
+                                        <li><a href="blog-single.html">فاکتور/پیش فاکتور</a></li>
                                     {% else %}
-                                    <li><a href="list">سازمان های همکار</a></li>
+                                        <li><a href="{% url 'organization:list' %}">سازمان های همکار</a></li>
                                     {% endif %}
 
                                 </ul>

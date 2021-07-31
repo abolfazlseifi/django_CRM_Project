@@ -22,7 +22,7 @@ from .views import home_page,header,footer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_page),
+    path('', home_page,name="homepage"),
     path('header', header, name="header"),
     path('footer', footer, name="footer"),
     path('', include('user_accounts.urls')),

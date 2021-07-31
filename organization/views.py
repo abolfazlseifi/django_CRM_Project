@@ -8,14 +8,16 @@ class Organization_Form(CreateView):
     model = models.Organization
     form_class = forms.OrganizationForm
     template_name = 'organization/form_organization.html'
+    success_url = 'homepage'
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
+        form.save()
         return super().form_valid(form)
 
-    # def form_invalid(self, form):
-    #     messages.info(self.request, form.errors)
-    #     return super().form_invalid(form)
+    def form_invalid(self, form):
+        messages.info(self.request, form.errors)
+        return super().form_invalid(form)
 
 
 class Organization_List(ListView):
@@ -25,12 +27,10 @@ class Organization_List(ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-
         if not self.request.user.is_superuser:
             qs = qs.filter(creator=self.request.user)
-
         return qs
 
-class Organization_Detail(DetailView):
-    template_name = 'organization/detail_organization.html'
-    model = models.Organization
+# class Organization_Detail(DetailView):
+#     template_name = 'organization/detail_organization.html'
+#     model = models.Organization
