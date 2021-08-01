@@ -35,7 +35,7 @@ def product_detail(request, *args, **kwargs):
 
     # print(product.tag_set.all())
 
-    if product is None or not product.active:
+    if product is None or not product.tax:
         raise Http404('محصول مورد نظر یافت نشد')
 
     context = {

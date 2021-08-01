@@ -2,7 +2,8 @@ from django.db.models import Q
 from django.db import models
 import os
 
-from product_category.models import ProductCategory
+# from product_category.models import ProductCategory
+
 
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
@@ -42,12 +43,14 @@ class ProductsManager(models.Manager):
 
 
 class Product(models.Model):
-    title = models.CharField(max_length=150, verbose_name='عنوان')
+    title = models.CharField(max_length=150, verbose_name='اسم دستگاه')
     description = models.TextField(verbose_name='توضیحات')
     price = models.IntegerField(verbose_name='قیمت')
     image = models.ImageField(upload_to=upload_image_path, null=True, blank=True, verbose_name='تصویر')
-    active = models.BooleanField(default=False, verbose_name='فعال / غیرفعال')
-    categories = models.ManyToManyField(ProductCategory, blank=True, verbose_name="دسته بندی ها")
+    tax = models.BooleanField(default=False, verbose_name='مالیات')
+    # categories = models.ManyToManyField(ProductCategory, blank=True, verbose_name="دسته بندی ها")
+    organizationproduct = models.ManyToManyField('organization.OrganizationProduct',blank=True,verbose_name= 'محصولات کارفرما')
+
 
     objects = ProductsManager()
 
