@@ -37,19 +37,19 @@
                     </div>
                 </div> -->
 
-                <div class="col-sm-4" style="text-align: left;">
-                    <div class="logo">
-                        <a href="index.html"><img src="{% static 'images/home/logo.png' %}" alt="Logo"
-                                                  style="text-align: center;"/></a>
-                    </div>
-                </div>
+{#                <div class="col-sm-4" style="text-align: left;">#}
+{#                    <div class="logo">#}
+{#                        <a href="index.html"><img src="{% static 'images/home/logo.png' %}" alt="Logo"#}
+{#                                                  style="text-align: center;"/></a>#}
+{#                    </div>#}
+{#                </div>#}
 
                 <div class="col-sm-8 header-middle-menu">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
                             <li><a href="#"><i class="fa fa-user"></i> حساب کاربـری</a></li>
-                            <li><a href="#"><i class="fa fa-star"></i> لیست علاقه مندی ها</a></li>
-                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> سبد خریـد</a></li>
+{#                            <li><a href="#"><i class="fa fa-star"></i> لیست علاقه مندی ها</a></li>#}
+{#                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> سبد خریـد</a></li>#}
 
                             {% if not request.user.is_authenticated %}
                                 <li><a href="/login"><i class="fa fa-lock"></i> ورود</a></li>
@@ -85,6 +85,20 @@
                         <ul class="nav navbar-nav collapse navbar-collapse">
                             <li><a href="/">خـانه</a></li>
                             <li><a href="/products">محصولات</a></li>
+                            <li class="dropdown"><a href="/product">پنل محصولات<i class="fa fa-angle-down"></i></a>
+                                <ul role="menu" class="sub-menu">
+                                    {% if  request.user.is_authenticated %}
+                                        <li><a href="{% url 'product:product_form' %}">تعریف محصول</a></li>
+                                        <li><a href="{% url 'organization:list' %}">سازمان های همکار</a></li>
+{#                                        <li><a href="detail">محصولات سازمان ها</a></li>#}
+                                        <li><a href="blog-single.html">پیگیری</a></li>
+                                        <li><a href="blog-single.html">فاکتور/پیش فاکتور</a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'organization:list' %}">سازمان های همکار</a></li>
+                                    {% endif %}
+
+                                </ul>
+                            </li>
                             <li class="dropdown"><a href="#">پنل سازمانها<i class="fa fa-angle-down"></i></a>
                                 <ul role="menu" class="sub-menu">
                                     {% if  request.user.is_authenticated %}
