@@ -2,6 +2,7 @@ from django.db.models import Q
 from django.db import models
 import os
 
+
 # from product_category.models import ProductCategory
 
 
@@ -17,11 +18,16 @@ def upload_image_path(instance, filename):
     return f"products/{final_name}"
 
 
-# Create your models here.
+def upload_pdf_path(instance, filename):
+    name, ext = get_filename_ext(filename)
+    if ext == 'pdf':
+        final_name = f"{instance.id}-{instance.title}{ext}"
+        return f"products/{final_name}"
+
 
 class ProductsManager(models.Manager):
     def get_active_products(self):
-        return self.get_queryset().filter(active=True)
+        return self.get_queryset().all()
 
     def get_products_by_category(self, category_name):
         return self.get_queryset().filter(categories__name__iexact=category_name, active=True)
@@ -44,13 +50,17 @@ class ProductsManager(models.Manager):
 
 class Product(models.Model):
     title = models.CharField(max_length=150, verbose_name='اسم دستگاه')
-    description = models.TextField(verbose_name='توضیحات')
     price = models.IntegerField(verbose_name='قیمت')
-    image = models.ImageField(upload_to=upload_image_path, null=True, blank=True, verbose_name='تصویر')
-    tax = models.BooleanField(default=False, verbose_name='مالیات')
-    # categories = models.ManyToManyField(ProductCategory, blank=True, verbose_name="دسته بندی ها")
-    organizationproduct = models.ManyToManyField('organization.OrganizationProduct',blank=True,verbose_name= 'محصولات کارفرما')
+    tax = models.BooleanField(default=False, verbose_name='مشمول مالیات')
+    file_pdf = models.FileField(upload_to=upload_pdf_path, blank=True,
+                                null=True, verbose_name='فایل کاتالوگ(PDF)')
+    file_image = models.ImageField(upload_to=upload_image_path, blank=True, null=True,
+                                   verbose_name='عکس کاتالوگ(jpeg)')
 
+    description = models.TextField(verbose_name='ویژگی های فنی')
+
+    organization_product = models.ManyToManyField('organization.OrganizationProduct', blank=True,
+                                                  verbose_name='قابل استفاده برای تولید محصولات تولیدی')
 
     objects = ProductsManager()
 

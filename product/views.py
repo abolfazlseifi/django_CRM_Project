@@ -1,11 +1,22 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView,CreateView
+
+from organization import forms
 from .models import Product
+from forms import ProductForm
 from django.http import Http404
 from product_category.models import ProductCategory
 
 
-# Create your views here.
+class CreatProductForm(CreateView):
+    form_class = ProductForm
+    template_name = 'ProductForm'
+    model = models.CompanyProduct
+    success_url = reverse_lazy("inventory:list-company-products")
+
+
+
+
 
 class ProductsList(ListView):
     template_name = 'products/products_list.html'
