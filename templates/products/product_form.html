@@ -1,6 +1,7 @@
 {% extends 'shared/_MainLayout.html' %}
 {% load i18n %}
 
+{% comment %}
 {% block content %}
 
     <div style="margin-left: 25%; margin-right: 10%; margin-top: 5%;">
@@ -9,8 +10,12 @@
 
             <div class='row mt-5'>
                 <div class='col-3'>
-                    <label for="id_company_product_name" class='form-label'></label>
-                    <input id='id_company_product_name' pattern="\D*" name="name" type="text" value="" class='form-control' placeholder="{% trans "نام محصول سازمان" %}"></input>
+
+                    <label for="title">نام استان</label>
+                    <input type="text" id="title" name="title" placeholder="نام محصول">
+
+                    <label for='title' class='form-label'></label>
+                    <input id='title' pattern="\D*" name="name" type="text" value="" class='form-control' placeholder="{% trans "نام محصول سازمان" %}"></input>
                 </div>
 
                 <div class='col-3'>
@@ -36,9 +41,9 @@
 
                 <div class='col-4'>
                     <div>
-                        <label for="id_related_with_organization_product" class="form-label"></label>
-                        <select id='id_related_with_organization_product' name='related_with_organization_product' class="form-select" size="11" multiple>
-                            {% for organization_product in all_organization_products %}
+                        <label for="organization_product" class="form-label"></label>
+                        <select id='organization_product' name='organization_product' class="form-select" size="11" multiple>
+                            {% for organization_product in organization_products %}
                                 {% if organization_product %}
                                     <option value="{{organization_product.pk}}">{{organization_product}}</option>
                                 {% endif %}
@@ -71,4 +76,58 @@
             </div>
         </form>
     </div>
-{% endblock content %}
+{% endblock content %}{% endcomment %}
+
+{% block content %}
+
+    <div class="container">
+        <section id="form"><!--form-->
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-1">
+                    <div class="signup-form"><!--sign up form-->
+                        <h2>تعریف محصول</h2>
+                        <form method="post">
+                            {% csrf_token %}
+
+                            <label for="title">نام محصول</label>
+                            <input type="text" id="title" name="province_name" placeholder="نام محصول">
+
+                            <label for="price">قیمت</label>
+                            <input type="number" id="price" name="price" placeholder="قیمت">
+
+                            <label class="form-check-label fs-5 fw-bold" for="tax">مشمول مالیات</label>
+                            <input class="form-check-input" type="checkbox" id="tax" name="tax"
+                                   placeholder="مشمول مالیات">
+
+                            <label for="file_pdf">فایل کاتالوگ(فقط فرمت pdf)</label>
+                            <input type="file" id="file_pdf" name="file_pdf"
+                                   placeholder="فایل کاتالوگ(فقط فرمت pdf)">
+
+                            <label for="file_image">فایل کاتالوگ(فقط فرمت jpeg)</label>
+                            <input type="file" id="file_image" name="file_image" placeholder="فایل کاتالوگ(فقط فرمت jpeg)">
+
+                            <label for="description">ویژگی های فنی</label>
+                            <textarea id="description" name="description"
+                                      placeholder="ویژگی های فنی"></textarea>
+
+                            <label for="organization_product" class="form-label"></label>
+                            <select id='organization_product' name='organization_product' class="form-select" size="11" multiple>
+                                {% for organization_product in organization_products %}
+                                    {% if organization_product %}
+                                        <option value="{{organization_product.pk}}">{{organization_product}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+
+                            <button type="submit" class="btn btn-default">ذخیره</button>
+
+                        </form>
+                    </div><!--/sign up form-->
+                </div>
+            </div>
+        </section>
+    </div>
+    <!--/form-->
+
+
+{% endblock %}

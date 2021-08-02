@@ -3,7 +3,7 @@ from django.db import models
 import os
 
 
-# from product_category.models import ProductCategory
+from product_category.models import ProductCategory
 
 
 def get_filename_ext(filepath):
