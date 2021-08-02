@@ -17,6 +17,10 @@ class CreatProductForm(CreateView):
         context['organization_products'] = organization_products
         return context
 
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        form.save()
+        return super().form_valid(form)
 
 
 class ProductsList(ListView):
