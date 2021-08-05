@@ -1,9 +1,20 @@
 from django.contrib import admin
-from quote.models import QuoteItem, FollowUp
+from quote.models import Quote,QuoteItem, FollowUp
+
+
+@admin.register(Quote)
+class QuoteAdmin(admin.ModelAdmin):
+    """
+    Quote admin setting
+    """
+    list_display = ('pk','organization','creator','timestamp',)
+    list_display_links = ('pk','organization')
+    search_fields = ('organization',)
+    list_filter = ('creator','timestamp')
 
 
 class QuoteItemAdmin(admin.ModelAdmin):
-    list_display = ['quote', 'product', 'discount', 'number', 'price', 'cost_with_tax', 'final_price']
+    list_display = ['quote', 'product', 'discount', 'number', 'price']
     search_fields = ['quote', 'product']
     list_filter = ['quote', 'product']
 

@@ -5,60 +5,37 @@ from django.shortcuts import redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
-from quote.models import QuoteItem, Quote, QuoteFollowUp, QuoteEmailHistory, FollowUp
-from quote.forms import QuoteForm
+from quote.models import QuoteItem, Quote, FollowUp
+from . import forms
 from django.contrib import messages
 from organization.models import Organization
 
 
 class Quotes_Form(CreateView):
     template_name = 'quote/form_quote.html'
-    model = QuoteItem
-    form_class = QuoteForm
-
-    def form_invalid(self, form):
-        messages.info(self.request, form.errors)
-        return super().form_invalid(form)
-
-    def form_valid(self, form):
-        form.instance.creator = self.request.user
-        form.save()
-        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['organizations'] = Organization.objects.all()
-        return context
+        formset = forms.QuoteItemCreateFormSet(queryset=QuoteItem.objects.none())
+        organizations = Organization.objects.filter(creator=self.request.user)
+        return {'formset': formset, 'organizations': organizations}
+
+    def post(self, *args, **kwargs):
+        formset = forms.QuoteItemCreateFormSet(data=self.request.POST)
+        if formset.is_valid():
+            organization = get_object_or_404(Organization, pk=self.request.POST['organization'],
+                                             creator=self.request.user)
+            quote = Quote.objects.create(creator=self.request.user, organanization=organization)
+            for form in formset:
+                form.instance.quote = quote
+                form.save()
+            messages.success(self.request, "ثبت شد")
+            return redirect("Organization:OrgansList")
 
 
 class ListQuotes(ListView):
     template_name = 'quote/list_quote.html'
     model = Quote
     paginate_by = 4
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-
-        if not self.request.user.is_superuser:
-            queryset = queryset.filter(creator=self.request.user)
-
-        return queryset
-
-
-class DetailQuotes(DetailView):
-    template_name = 'quote/detail_quote.html'
-    model = Quote
-
-    def quotes_for_user_exists(self):
-        qs = self.get_queryset()
-        exists = qs.filter(creator=self.request.user).filter(pk=self.kwargs.get('pk', None)).exists()
-        return exists
-
-    def get(self, request, *args, **kwargs):
-        if self.quotes_for_user_exists() or self.request.user.is_superuser:
-            return super().get(request, *args, **kwargs)
-        else:
-            return redirect("quote:list_quote")
 
 
 class DownloadQuote(DetailView):

@@ -1,12 +1,10 @@
 from django import forms
-from quote import models
+from . import models
+from django.forms import modelformset_factory
 
+QuoteItemCreateFormSet = modelformset_factory(models.QuoteItem, fields=('product', 'price', 'number', 'discount'),
+                                              extra=1)
 
-class QuoteForm(forms.ModelForm):
-    class Meta:
-        model = models.QuoteItem
-        fields = ['quote', 'product', 'discount', 'number', 'price', 'cost_with_tax',
-                  'final_price']
 
 class FollowUpForm(forms.ModelForm):
     class Meta:
