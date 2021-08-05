@@ -1,8 +1,5 @@
 from django.contrib import admin
-from quote.models import QuoteItem, QuoteFollowUp, FollowUp, QuoteEmailHistory
-
-
-# fields = ['quote', 'product', 'discount', 'number', 'price', 'cost_with_tax', 'final_price']
+from quote.models import QuoteItem, FollowUp
 
 
 class QuoteItemAdmin(admin.ModelAdmin):
@@ -18,4 +15,12 @@ admin.site.register(QuoteItem, QuoteItemAdmin)
 
 
 class FollowUpAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['organization', 'creator', 'timestamp', 'text']
+    search_fields = ['organization', 'creator', 'timestamp', 'text']
+    list_filter = ['organization', 'creator', 'timestamp']
+
+    class Meta:
+        model = FollowUp
+
+
+admin.site.register(FollowUp, FollowUpAdmin)

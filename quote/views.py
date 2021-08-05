@@ -1,4 +1,4 @@
-import weasyprint as weasyprint
+# import weasyprint as weasyprint
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView
@@ -66,9 +66,9 @@ class DownloadQuote(DetailView):
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         content = response.rendered_content
-        pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
-        pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
-        return pdf_response
+        # pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
+        # pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
+        # return pdf_response
 
 
 def send_quote_email(request):

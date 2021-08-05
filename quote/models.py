@@ -31,6 +31,11 @@ class QuoteItem(models.Model):
     cost_with_tax = models.PositiveIntegerField(default=0, verbose_name="قیمت با مالیات")
     final_price = models.PositiveIntegerField(default=0, verbose_name="قیمت نهایی")
 
+    class Meta:
+        verbose_name = 'پیش فاکتور'
+        verbose_name_plural = 'پیش فاکتورها'
+
+
 class QuoteEmailHistory(models.Model):
     receiver = models.EmailField(verbose_name="ایمیل گیرنده")
     sent_email = models.BooleanField(default=False, verbose_name="ایمیل ارسال شد؟")
@@ -53,3 +58,7 @@ class FollowUp(models.Model):
     creator = models.ForeignKey(get_user_model(), verbose_name='کاربر ثبت کننده', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
     text = models.TextField(verbose_name='متن پیگیری', default=None)
+
+    class Meta:
+        verbose_name = 'پیگیری'
+        verbose_name_plural = 'پیگیری ها'
