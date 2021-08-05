@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.views.generic import ListView, DetailView, CreateView
-
 from . import models, forms
 
 

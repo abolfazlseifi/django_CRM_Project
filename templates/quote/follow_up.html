@@ -1,0 +1,36 @@
+{% extends 'shared/_MainLayout.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class='row'>
+        <div class='row'>
+            <div class='text-dark mt-lg-5 fw-bold fs-5'>
+                <h2>{{organization.organization_name}} {% trans "تاریخچه پیگیری شرکت" %}</h2>
+            </div>
+        </div>
+
+        <div class='row text-white'>
+            <table class='table table-dark'>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{% trans "کاربر" %}</th>
+                        <th>{% trans "تاریخ" %}</th>
+                        <th>{% trans "سفارش" %}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in object_list  %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{item.creator}}</td>
+                            <td>{{item.timmpstamp}}</td>
+                            <td>{{item.text}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

@@ -40,7 +40,9 @@ INSTALLED_APPS = [
 
     # our required
     'django_render_partial',
-
+    'widget_tweaks',
+    'django.contrib.humanize',
+    
     # our application
     'user_accounts',
     'product',

@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('user_accounts.urls')),
     path('', include('product.urls')),
     path('', include('organization.urls')),
+    path('', include('quote.urls')),
 ]
 
 
