@@ -1,12 +1,14 @@
-# import weasyprint as weasyprint
+import weasyprint as weasyprint
+from django.core import mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from quote.models import QuoteItem, Quote, QuoteFollowUp, QuoteEmailHistory, FollowUp
 from quote.forms import QuoteForm
 from django.contrib import messages
 from organization.models import Organization
-from . import tasks
 
 
 class Quotes_Form(CreateView):
@@ -66,14 +68,23 @@ class DownloadQuote(DetailView):
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)
         content = response.rendered_content
-        # pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
-        # pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
-        # return pdf_response
+        pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
+        pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
+        return pdf_response
 
 
-def send_quote_email(request):
-    tasks.send_email_task.delay()
-    return HttpResponse("Done!")
+def send_quote_email(request,pk):
+    quote = get_object_or_404(Quote, pk=pk, creator=request.user)
+    text = render_to_string('quotetext.txt', {'object': quote})
+    email = quote.organization.personnel_email
+    sender = request.user.email
+    emails = (
+        ('Hello', text, sender, [email, ]),
+    )
+    results = mail.send_mass_mail(emails)
+    print(results)
+    messages.success(request, 'ایمیل با موفقیت ارسال شد.')
+    return redirect(reverse_lazy('quote:list_quote'))
 
 
 class Follow_Up(ListView):

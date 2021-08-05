@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django_render_partial',
     'widget_tweaks',
     'django.contrib.humanize',
-    
+    'djcelery_email',
+
     # our application
     'user_accounts',
     'product',
@@ -145,3 +146,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static_cdn', 'media_root')
 
 #######################################################
+
+CELERY_EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+CELERY_EMAIL_TASK_CONFIG = {
+    'name': 'djcelery_email_send',
+    'ignore_result': True,
+}

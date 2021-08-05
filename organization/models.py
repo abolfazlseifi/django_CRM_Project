@@ -19,12 +19,27 @@ class OrganizationProduct(models.Model):
         return self.name
 
 
+    def get_suggest_product(self):
+        return [product for product in self.product_set.all()]
+
+
+
+class Province(models.Model):
+    name = models.CharField(max_length=100, verbose_name="استان", unique=True )
+
+    class Meta():
+        verbose_name = "استان"
+        verbose_name_plural ="استان ها"
+
+    def __str__(self):
+        return self.name
+
 class Organization(models.Model):
     province_name = models.CharField(max_length=20, verbose_name='استان')
     organization_name = models.CharField(max_length=50, verbose_name='نام سازمان')
     organization_phone = models.CharField(validators=[phone_regex],max_length=11, verbose_name='شماره تلفن سازمان', unique=True)
     organization_staff = models.PositiveIntegerField(verbose_name='تعداد کارگران')
-    manufactured_product = models.ManyToManyField(OrganizationProduct, verbose_name='محصولات تولیدی')
+    organization_product = models.ManyToManyField(OrganizationProduct, verbose_name='محصولات تولیدی')
     personnel_name = models.CharField(max_length=50, verbose_name="نام و نام خانوادگی کارفرما")
     personnel_mobile = models.CharField(validators=[mobile_regex],max_length=11, verbose_name='موبایل کارفرما', unique=True)
     personnel_email = models.EmailField(validators=[email_regex],verbose_name='ایمیل کارفرما', blank=True)
@@ -32,8 +47,20 @@ class Organization(models.Model):
     creator = models.ForeignKey(get_user_model(), verbose_name='کاربر ثبت کننده', on_delete=models.CASCADE)
 
     class Meta:
+        unique_together = ['organization_name','creator' ]
         verbose_name = 'سازمان'
         verbose_name_plural = 'سازمانها'
 
     def __str__(self):
         return self.organization_name
+
+    def get_organization_product(self):
+        return [product.name for product in self.organization_product.all()]
+
+    def get_suggest_product(self):
+        p = list()
+        for product in self.organization_product.all():
+            for l in product.get_suggest_product():
+                p.append(l.title)
+        p = set(p)
+        return list(p)

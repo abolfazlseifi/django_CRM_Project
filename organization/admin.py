@@ -1,32 +1,37 @@
 from django.contrib import admin
-from organization.models import Organization, OrganizationProduct
+from . import models
 
 
+
+@admin.register(models.OrganizationProduct)
 class OrganizationProductAdmin(admin.ModelAdmin):
-    list_display = ['__str__']
-    search_fields = ['name']
-    list_filter = ['name']
-
-    class Meta:
-        model = OrganizationProduct
+    list_display = [
+        'pk',
+        'name',
+    ]
 
 
-admin.site.register(OrganizationProduct, OrganizationProductAdmin)
+@admin.register(models.Province)
+class StateAdmin(admin.ModelAdmin):
+    list_display = [
+        'pk',
+        'name',
+    ]
 
 
+@admin.register(models.Organization)
 class OrganizationAdmin(admin.ModelAdmin):
-    list_display = ['province_name', 'organization_name', 'organization_phone', 'organization_staff'
-        , 'personnel_name', 'personnel_mobile', 'personnel_email']
+    list_display = [
+        'province_name', 'organization_name', 'organization_phone', 'organization_staff',
+         'personnel_name', 'personnel_mobile', 'personnel_email','timestamp', 'creator'
+    ]
 
-    search_fields = ('province_name', 'organization_name', 'organization_phone', 'organization_staff',
-                     'manufacturedـproduct', 'personnel_name', 'personnel_mobile', 'personnel_email')
+    list_filter = ['province_name', 'organization_name', 'creator', ]
 
-    list_filter = ('province_name', 'organization_name', 'personnel_name')
+    list_display_links = ['organization_name', ]
 
-    list_editable = ['organization_phone', 'personnel_mobile', 'personnel_email']
+    list_per_page = 5
 
-    class Meta:
-        model = Organization
+    search_fields = ['organization_name__icontains' ]
 
 
-admin.site.register(Organization, OrganizationAdmin)

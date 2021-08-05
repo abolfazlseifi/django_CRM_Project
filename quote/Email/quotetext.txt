@@ -1,0 +1,18 @@
+سلام
+ از : {{ object.creator.username|safe }}
+ در خصوص پیش فاکتور شماره : {{ object.pk|safe }}
+ سازمان : {{ object.organization.organization_name|safe }}
+ تاریخ ثبت : {{ object.timestamp.date|safe }}
+ =======================================================================================
+ نام محصول                     قیمت               تعداد              تخفیف             مالیات          مجموع کل
+{% for quoteitem in object.quoteitem_set.all %}
+{{ quoteitem.product.title }}           {{ quoteitem.price }}            {{ quoteitem.number }}            -{{ quoteitem.discount }}%                  {% if quoteitem.product.tax %}9%{% else %}0%{% endif %}           {{ quoteitem.get_total_price }}
+{% endfor %}
+ ======================================================================================
+تعداد کل محصولات : {{ object.get_total_quantity }}
+قیمت کل : {{ object.get_total_base_price }}
+تخفیف کلی : {{ object.get_quote_discount }}
+مالیات کل : {{ object.get_quote_tax }}
+قیمت نهایی : {{ object.get_total_price }}
+
+منون از خرید شما

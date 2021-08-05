@@ -7,3 +7,8 @@ class QuoteForm(forms.ModelForm):
         model = models.QuoteItem
         fields = ['quote', 'product', 'discount', 'number', 'price', 'cost_with_tax',
                   'final_price']
+
+class FollowUpForm(forms.ModelForm):
+    class Meta:
+        model = models.FollowUp
+        fields = ['text']
