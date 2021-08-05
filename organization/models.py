@@ -61,6 +61,6 @@ class Organization(models.Model):
         p = list()
         for product in self.organization_product.all():
             for l in product.get_suggest_product():
-                p.append(l.title)
+                p.append(l.name)
         p = set(p)
         return list(p)

@@ -5,10 +5,10 @@ from .models import Product
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'title', 'price', 'tax','file_pdf','file_image','description']
-    search_fields = ('title', 'price','tax','description')
-    list_filter = ('title', 'price','tax')
-    list_editable = ['title', 'price','tax']
+    list_display = ['__str__', 'name', 'price', 'tax','file_pdf','file_image','description']
+    search_fields = ('name', 'price','tax','description')
+    list_filter = ('name', 'price','tax')
+    list_editable = ['name', 'price','tax']
 
     class Meta:
         model = Product
