@@ -5,6 +5,6 @@ app_name = 'product'
 
 urlpatterns = [
     path('productform', CreatProductForm.as_view(),name='product_form'),
-    path('products', ProductsList.as_view()),
+    path('products', ProductsList.as_view(),name='product_list'),
 
     ]

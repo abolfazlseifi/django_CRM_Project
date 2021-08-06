@@ -28,3 +28,13 @@ class ProductsList(ListView):
     paginate_by = 6
 
 
+    def get_queryset(self):
+        search = self.request.GET.get('search', None)
+        mode = self.request.GET.get('mode', None)
+        if mode == 'name':
+            products = Product.objects.filter(name__contains=search)
+        elif mode == 'description':
+            products = Product.objects.filter(description__contains=search)
+        else:
+            products = Product.objects.all()
+        return products.order_by('pk')

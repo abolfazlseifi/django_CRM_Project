@@ -6,9 +6,9 @@
         <h2>{{ object.name }}</h2>
     </div>
     <div>
-        <a href="{% url 'organization:list' %}">بازگشت</a>
-        <a href="{% url 'quote:form_quote' %}">پیش فاکتور</a>
-        <a href="{% url 'organization:Update' object.pk %}">ویرایش</a>
+        <a href="{% url 'organization:list' %}" class="btn btn-info">بازگشت</a>
+        <a href="{% url 'quote:form_quote' %}" class="btn btn-info">پیش فاکتور</a>
+        <a href="{% url 'organization:Update' object.pk %}" class="btn btn-info">ویرایش</a>
     </div>
     <div class="card-body">
         استان : {{ object.province_name }}
@@ -19,9 +19,9 @@
         <br>
         تعداد کارگر : {{ object.organization_staff }}
         <br>
-        ثبت توسط : {{ object.creator.first_name }} {{ object.creator.last_name }}
+        ثبت توسط : {{ object.creator }}
         <br>
-        محصولات تولیدی : {% for product in object.gget_organization_product %} ,{{ product }}{% endfor %}
+        محصولات تولیدی : {% for product in object.get_organization_product %} ,{{ product }}{% endfor %}
         <br>
         محصولات پیشنهادی : {% for product in object.get_suggest_product %} ,{{ product }} {% endfor %}
     </div>

@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from . import models, forms
 
@@ -8,7 +9,7 @@ class Organization_Form(CreateView):
     model = models.Organization
     form_class = forms.OrganizationForm
     template_name = 'organization/form_organization.html'
-    success_url = 'organization:list'
+    success_url = reverse_lazy('organization:list')
 
     def form_valid(self, form):
         form.instance.creator = self.request.user

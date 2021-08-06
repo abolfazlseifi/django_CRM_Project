@@ -22,7 +22,7 @@
                     <tr>
                         <th>{{forloop.counter}}</th>
                         <th>
-                            <a href="#" style='text-decoration: none; color:white;'>{{quote.organization.name}}</a>
+                            <a href="#" style='text-decoration: none; color:black;'>{{quote.organization.organization_name}}</a>
                         </th>
                         <th>{% for item in quote.quoteitem_set.all %}{{ item.product.name }},{% endfor %}</th>
                         <th>
@@ -35,7 +35,8 @@
                             {% endif %}
                         </th>
                         <th>
-                            <a href="{% url 'Quote:SendEmail' quote.pk %}" style='text-decoration: none; color:white;'>ارسال ایمیل</a>
+{#                            <a href="{% url 'quote:email_quote' quote.pk %}" style='text-decoration: none; color:black;'>ارسال ایمیل</a>#}
+                            <a href="#" style='text-decoration: none; color:black;'>ارسال ایمیل</a>
                         </th>
                     </tr>
                 {% endfor %}

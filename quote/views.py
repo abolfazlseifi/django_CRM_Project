@@ -24,12 +24,12 @@ class Quotes_Form(CreateView):
         if formset.is_valid():
             organization = get_object_or_404(Organization, pk=self.request.POST['organization'],
                                              creator=self.request.user)
-            quote = Quote.objects.create(creator=self.request.user, organanization=organization)
+            quote = Quote.objects.create(creator=self.request.user, organization=organization)
             for form in formset:
                 form.instance.quote = quote
                 form.save()
             messages.success(self.request, "ثبت شد")
-            return redirect("Organization:OrgansList")
+            return redirect("quote:list_quote")
 
 
 class ListQuotes(ListView):
