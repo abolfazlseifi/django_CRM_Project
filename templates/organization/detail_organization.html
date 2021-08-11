@@ -2,69 +2,82 @@
 {% load static %}
 
 {% block content %}
-    <div class="text-center">
-        <h2>{{ object.name }}</h2>
-    </div>
-    <div>
-        <a href="{% url 'organization:list' %}" class="btn btn-info">بازگشت</a>
-        <a href="{% url 'quote:form_quote' %}" class="btn btn-info">پیش فاکتور</a>
-        <a href="{% url 'organization:Update' object.pk %}" class="btn btn-info">ویرایش</a>
-    </div>
-    <div class="card-body">
-        استان : {{ object.province_name }}
-        <br>
-        تلفن : {{ object.organization_phone }}
-        <br>
-        تاریخ ثبت : {{ object.timestamp.date }}
-        <br>
-        تعداد کارگر : {{ object.organization_staff }}
-        <br>
-        ثبت توسط : {{ object.creator }}
-        <br>
-        محصولات تولیدی : {% for product in object.get_organization_product %} ,{{ product }}{% endfor %}
-        <br>
-        محصولات پیشنهادی : {% for product in object.get_suggest_product %} ,{{ product }} {% endfor %}
-    </div>
-    <div class="text-center">
-        <h4>اطلاعات مخاطب</h4>
-    </div>
-    <div class="card-body">
-        نام مخاطب : {{ object.personnel_name }}
-        <br>
-        تلفن مخاطب : {{ object.personnel_mobile }}
-        <br>
-    </div>
-    <div class="text-center">
-        <h2>تاریخچه پیگیری</h2>
-    </div>
-    <div class='text-white mt-lg-5' style="margin-left: 15%; margin-right: 15%;">
-        <table class='table table-dark'>
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>کاربر</th>
-                <th>تاریخ</th>
-                <th>گزارش</th>
-            </tr>
-            </thead>
 
-            <tbody>
-            {% for followup in object_list %}
-                <tr>
-                    <th>{{ forloop.counter }}</th>
-                    <th>
-                        <a href="#" style='text-decoration: none; color:white;'>{{ followup.product_name }}</a>
-                    </th>
-                    <th>{{ followup.price }}</th>
-                    <th>
-                        {{ followup.price }}
-                    </th>
-                    <th>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+
+        <div class="container">
+        <section id="form"><!--form-->
+            <div class="row">
+                                <div class="col-sm-4 col-sm-offset-1">
+                                        <div class="text-center">
+                        <h2>{{ object.name }}</h2>
+                    </div>
+                    <div>
+                        <a href="{% url 'organization:list' %}" class="btn btn-info">بازگشت</a>
+                        <a href="{% url 'quote:form_quote' %}" class="btn btn-info">پیش فاکتور</a>
+                        <a href="{% url 'organization:Update' object.pk %}" class="btn btn-info">ویرایش</a>
+                    </div>
+                    <div class="card-body">
+                        استان : {{ object.province_name }}
+                        <br>
+                        تلفن : {{ object.organization_phone }}
+                        <br>
+                        تاریخ ثبت : {{ object.timestamp.date }}
+                        <br>
+                        تعداد کارگر : {{ object.organization_staff }}
+                        <br>
+                        ثبت توسط : {{ object.creator }}
+                        <br>
+                        محصولات تولیدی : {% for product in object.get_organization_product %} ,{{ product }}{% endfor %}
+                        <br>
+                        محصولات پیشنهادی : {% for product in object.get_suggest_product %} ,{{ product }} {% endfor %}
+                    </div>
+                    <div class="text-center">
+                        <h4>اطلاعات مخاطب</h4>
+                    </div>
+                    <div class="card-body">
+                        نام مخاطب : {{ object.personnel_name }}
+                        <br>
+                        تلفن مخاطب : {{ object.personnel_mobile }}
+                        <br>
+                    </div>
+                    <div class="text-center">
+                        <h2>تاریخچه پیگیری</h2>
+                    </div>
+                    <div class='text-white mt-lg-5' style="margin-left: 15%; margin-right: 15%;">
+                        <table class='table table-dark'>
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>کاربر</th>
+                                <th>تاریخ</th>
+                                <th>گزارش</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            {% for followup in object_list %}
+                                <tr>
+                                    <th>{{ forloop.counter }}</th>
+                                    <th>
+                                        <a href="#" style='text-decoration: none; color:white;'>{{ followup.product_name }}</a>
+                                    </th>
+                                    <th>{{ followup.price }}</th>
+                                    <th>
+                                        {{ followup.price }}
+                                    </th>
+                                    <th>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
+    <!--/form-->
+
+
                         <div class="clearfix"></div>
                         <ul class="pagination">
                             {% if page_obj.has_previous %}

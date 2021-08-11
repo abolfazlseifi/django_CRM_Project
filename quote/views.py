@@ -1,5 +1,6 @@
 # import weasyprint as weasyprint
 from django.core import mail
+from django.http import JsonResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -78,21 +79,21 @@ def send_quote_email(request, pk):
 class Follow_Up(CreateView):
     template_name = 'quote/follow_up.html'
     model = FollowUp
+    form_class = forms.FollowUpForm
 
     def get_queryset(self):
-        qs = super().get_queryset()
+        query = super().get_queryset()
 
         if not self.request.user.is_superuser:
             pk = self.kwargs.get('pk', None)
-            qs = qs.filter(creator=self.request.user, pk=pk)
+            query = query.filter(creator=self.request.user, pk=pk)
 
-        return qs
+        return query
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        organization_obj = get_object_or_404(klass='organization.Organization', pk=self.kwargs.get('pk', None))
-        context['organization'] = organization_obj
-        return context
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        form.save()
+        return super().form_valid(form)
 
 
 # <--------------------| لیست پیگیری |-------------------->

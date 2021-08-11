@@ -33,7 +33,7 @@
                                                     <td>{{item.personnel_name}}</td>
                                                     <td>{{item.creator}}</td>
                                                     <td>
-                                                        <a href="#" style='text-decoration: none; color: red;'>{% trans "عملیات پیگیری" %}</a>
+                                                        <a href="{% url 'quote:follow_up' item.pk %}" style='text-decoration: none; color: red;'>{% trans "عملیات پیگیری" %}</a>
                                                     </td>
                                                 </tr>
                                             {% endfor %}

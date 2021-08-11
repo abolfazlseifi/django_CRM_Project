@@ -8,6 +8,6 @@ urlpatterns = [
     path('download/<int:pk>/', DownloadQuote.as_view(), name='pdf_quote'),
     path('email/<int:pk>', send_quote_email, name='email_quote'),
     path('followup/<int:pk>/', Follow_Up.as_view(), name='follow_up'),
-    path('listfollowup/<int:pk>/', ListFollow_Up.as_view(), name='list_follow_up'),
+    path('listfollowup', ListFollow_Up.as_view(), name='list_follow_up'),
 
 ]
