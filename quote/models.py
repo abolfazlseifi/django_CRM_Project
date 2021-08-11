@@ -4,6 +4,8 @@ from django.db.models import Sum, F, Case, When
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
+# <--------------------| مدل پیش فاکتور |-------------------->
+
 class Quote(models.Model):
     organization = models.ForeignKey("organization.Organization", on_delete=models.PROTECT, verbose_name="سازمان")
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
@@ -17,20 +19,21 @@ class Quote(models.Model):
     def __str__(self):
         return f'{self.organization}'
 
-    def get_total_number(self):
-        return self.quoteitem_set.all().aggregate(Sum('number')).get('number__sum', 0)
+    def get_total_number(self):  # جمع تعداد
+        return self.quoteitem_set.all(). \
+            aggregate(Sum('number')).get('number__sum', 0)
 
-    def get_total_base_price(self):
+    def get_total_base_price(self):  # جمع قیمت پایه
         return self.quoteitem_set.all().annotate(total_base_price=F('number') * F('price')) \
             .aggregate(Sum('total_base_price'))['total_base_price__sum']
 
-    def get_quote_discount(self):
+    def get_quote_discount(self):  # جمع تخفیف ها
         return self.quoteitem_set.all().annotate(
             total_base_price=F('number') * F('price')).annotate(
             total_discount=(F('discount') * F('total_base_price') / 100)) \
             .aggregate(Sum('total_discount'))['total_discount__sum']
 
-    def get_quote_tax(self, tax=tax):
+    def get_quote_tax(self, tax=tax):  # جمع مالیات
         return self.quoteitem_set.all().annotate(
             total_base_price=F('number') * F('price')).annotate(
             total_price=F('total_base_price') - (F('discount') * F('total_base_price') / 100)).annotate(
@@ -41,7 +44,7 @@ class Quote(models.Model):
             )
         ).aggregate(Sum('total_tax'))['total_tax__sum']
 
-    def get_total_price(self, tax=tax):
+    def get_total_price(self, tax=tax):  # جمع کلی
         return self.quoteitem_set.all().annotate(
             total_base_price=F('number') * F('price')).annotate(
             total_price=F('total_base_price') - (F('discount') * F('total_base_price') / 100)).annotate(
@@ -52,6 +55,8 @@ class Quote(models.Model):
             )
         ).aggregate(Sum('total_price'))['total_price__sum']
 
+
+# <--------------------| آیتم پیش فاکتور |-------------------->
 
 class QuoteItem(models.Model):
     quote = models.ForeignKey("Quote", on_delete=models.CASCADE, verbose_name='پیش فاکتور')
@@ -71,6 +76,8 @@ class QuoteItem(models.Model):
         return self.number * self.price
 
 
+# <--------------------| تاریخچه ارسال ایمیل |-------------------->
+
 class QuoteEmailHistory(models.Model):
     receiver = models.EmailField(verbose_name="ایمیل گیرنده")
     sent_email = models.BooleanField(default=False, verbose_name="ایمیل ارسال شد؟")
@@ -81,7 +88,7 @@ class QuoteEmailHistory(models.Model):
         return self.receiver
 
 
-
+# <--------------------| پیگیری |-------------------->
 
 class FollowUp(models.Model):
     organization = models.ForeignKey('organization.Organization', verbose_name="سازمان", on_delete=models.CASCADE)

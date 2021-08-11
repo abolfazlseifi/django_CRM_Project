@@ -1,17 +1,23 @@
 from django.contrib import admin
-from quote.models import Quote,QuoteItem, FollowUp
+from quote.models import Quote, QuoteItem, FollowUp
 
 
-@admin.register(Quote)
+# <--------------------| ادمین پیش فاکتور |-------------------->
+
 class QuoteAdmin(admin.ModelAdmin):
-    """
-    Quote admin setting
-    """
-    list_display = ('pk','organization','creator','timestamp',)
-    list_display_links = ('pk','organization')
+    list_display = ('pk', 'organization', 'creator', 'timestamp',)
+    list_display_links = ('pk', 'organization')
     search_fields = ('organization',)
-    list_filter = ('creator','timestamp')
+    list_filter = ('creator', 'timestamp')
 
+    class Meta:
+        model = Quote
+
+
+admin.site.register(Quote, QuoteAdmin)
+
+
+# <--------------------| ادمین آیتم پیش فاکتور |-------------------->
 
 class QuoteItemAdmin(admin.ModelAdmin):
     list_display = ['quote', 'product', 'discount', 'number', 'price']
@@ -24,6 +30,8 @@ class QuoteItemAdmin(admin.ModelAdmin):
 
 admin.site.register(QuoteItem, QuoteItemAdmin)
 
+
+# <--------------------| ادمین پیگیری |-------------------->
 
 class FollowUpAdmin(admin.ModelAdmin):
     list_display = ['organization', 'creator', 'timestamp', 'text']

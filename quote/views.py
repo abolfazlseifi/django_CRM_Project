@@ -1,6 +1,5 @@
 # import weasyprint as weasyprint
 from django.core import mail
-from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -11,6 +10,8 @@ from . import forms
 from django.contrib import messages
 from organization.models import Organization
 
+
+# <--------------------| فرم پیش فاکتور |-------------------->
 
 class Quotes_Form(CreateView):
     template_name = 'quote/form_quote.html'
@@ -33,25 +34,32 @@ class Quotes_Form(CreateView):
             return redirect("quote:list_quote")
 
 
+# <--------------------| لیست پیش فاکتور |-------------------->
+
 class ListQuotes(ListView):
     template_name = 'quote/list_quote.html'
     model = Quote
     paginate_by = 4
 
 
+# <--------------------| دانلود پیش فاکتور |-------------------->
+
 class DownloadQuote(DetailView):
     template_name = 'quote/pdf_quote.html'
     model = Quote
 
     # def get(self, request, *args, **kwargs):
-        # response = super().get(request, *args, **kwargs)
-        # content = response.rendered_content
-        # pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
-        # pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
-        # return pdf_response
+    # response = super().get(request, *args, **kwargs)
+    # content = response.rendered_content
+    # pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
+    # pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
+    # return pdf_response
+
+
+# <--------------------| ارسال ایمیل |-------------------->
 
 @require_http_methods(["GET"])
-def send_quote_email(request,pk):
+def send_quote_email(request, pk):
     quote = get_object_or_404(Quote, pk=pk, creator=request.user)
     text = render_to_string('quotetext.txt', {'object': quote})
     email = quote.organization.personnel_email
@@ -64,6 +72,8 @@ def send_quote_email(request,pk):
     messages.success(request, 'ایمیل با موفقیت ارسال شد.')
     return reverse_lazy('quote:list_quote')
 
+
+# <--------------------| پیگیری فروش |-------------------->
 
 class Follow_Up(CreateView):
     template_name = 'quote/follow_up.html'
@@ -85,6 +95,7 @@ class Follow_Up(CreateView):
         return context
 
 
+# <--------------------| لیست پیگیری |-------------------->
 
 class ListFollow_Up(ListView):
     template_name = 'quote/list_follow_up.html'

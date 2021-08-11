@@ -149,7 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-####################################################################3
+####################################################################
 LOGIN_REDIRECT_URL = 'homepage'  # new
 LOGOUT_REDIRECT_URL = 'homepage'  # new
 LOGIN_URL = 'login'
