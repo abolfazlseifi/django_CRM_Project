@@ -1,9 +1,10 @@
-import weasyprint as weasyprint
+# import weasyprint as weasyprint
 from django.core import mail
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView, DetailView, CreateView
 from quote.models import QuoteItem, Quote, FollowUp
 from . import forms
@@ -42,14 +43,14 @@ class DownloadQuote(DetailView):
     template_name = 'quote/pdf_quote.html'
     model = Quote
 
-    def get(self, request, *args, **kwargs):
-        response = super().get(request, *args, **kwargs)
-        content = response.rendered_content
-        pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
-        pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
-        return pdf_response
+    # def get(self, request, *args, **kwargs):
+        # response = super().get(request, *args, **kwargs)
+        # content = response.rendered_content
+        # pdf = weasyprint.HTML(string=content, base_url='http://127.0.0.1:8000').write_pdf()
+        # pdf_response = HttpResponse(content=pdf, content_type='application/pdf')
+        # return pdf_response
 
-
+@require_http_methods(["GET"])
 def send_quote_email(request,pk):
     quote = get_object_or_404(Quote, pk=pk, creator=request.user)
     text = render_to_string('quotetext.txt', {'object': quote})
@@ -61,10 +62,10 @@ def send_quote_email(request,pk):
     results = mail.send_mass_mail(emails)
     print(results)
     messages.success(request, 'ایمیل با موفقیت ارسال شد.')
-    return redirect(reverse_lazy('quote:list_quote'))
+    return reverse_lazy('quote:list_quote')
 
 
-class Follow_Up(ListView):
+class Follow_Up(CreateView):
     template_name = 'quote/follow_up.html'
     model = FollowUp
 
@@ -81,4 +82,29 @@ class Follow_Up(ListView):
         context = super().get_context_data(**kwargs)
         organization_obj = get_object_or_404(klass='organization.Organization', pk=self.kwargs.get('pk', None))
         context['organization'] = organization_obj
+        return context
+
+
+
+class ListFollow_Up(ListView):
+    template_name = 'quote/list_follow_up.html'
+    model = FollowUp
+    paginate_by = 3
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        pk = self.kwargs.get('pk', None)
+        qs = qs.filter(organization__pk=pk)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        organization_obj = get_object_or_404(
+            klass='organization.Organization',
+            pk=self.kwargs.get('pk', None))
+
+        context['organization'] = organization_obj
+
         return context

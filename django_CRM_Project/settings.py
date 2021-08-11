@@ -132,20 +132,29 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/site_statics/'
 
-# Creat folder name = attach
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'attach')
+    os.path.join(BASE_DIR, "attach")
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn', 'static_root')
-######################################################
-# Media Address
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static_cdn', 'media_root')
+STATIC_ROOT = os.path.join(BASE_DIR, "static_cdn", "static_root")
 
-#######################################################
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+####################################################################3
+LOGIN_REDIRECT_URL = 'homepage'  # new
+LOGOUT_REDIRECT_URL = 'homepage'  # new
+LOGIN_URL = 'login'
+
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 
 CELERY_EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 

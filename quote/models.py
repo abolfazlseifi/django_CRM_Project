@@ -35,8 +35,8 @@ class Quote(models.Model):
             total_base_price=F('number') * F('price')).annotate(
             total_price=F('total_base_price') - (F('discount') * F('total_base_price') / 100)).annotate(
             total_tax=Case(
-                When(product__is_tax=True, then=(F('total_price') * tax / 100)),
-                When(product__is_tax=False, then=0),
+                When(product__tax=True, then=(F('total_price') * tax / 100)),
+                When(product__tax=False, then=0),
                 output_field=models.PositiveIntegerField()
             )
         ).aggregate(Sum('total_tax'))['total_tax__sum']
@@ -46,8 +46,8 @@ class Quote(models.Model):
             total_base_price=F('number') * F('price')).annotate(
             total_price=F('total_base_price') - (F('discount') * F('total_base_price') / 100)).annotate(
             total_price=Case(
-                When(product__is_tax=True, then=F('total_price') + (F('total_price') * tax / 100)),
-                When(product__is_tax=False, then=F('total_price')),
+                When(product__tax=True, then=F('total_price') + (F('total_price') * tax / 100)),
+                When(product__tax=False, then=F('total_price')),
                 output_field=models.PositiveIntegerField()
             )
         ).aggregate(Sum('total_price'))['total_price__sum']
@@ -81,11 +81,6 @@ class QuoteEmailHistory(models.Model):
         return self.receiver
 
 
-class QuoteFollowUp(models.Model):
-    organization = models.ForeignKey('organization.Organization', verbose_name="سازمان", on_delete=models.CASCADE)
-    timestamp = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
-    creator = models.ForeignKey(get_user_model(), verbose_name='کاربر ثبت کننده', on_delete=models.CASCADE)
-    text = models.TextField(default=None, verbose_name='متن پیگیری')
 
 
 class FollowUp(models.Model):
