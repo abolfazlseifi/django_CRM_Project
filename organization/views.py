@@ -2,8 +2,10 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from . import models, forms
-
+from . import models, forms, serializers
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 # <--------------------| فرم ایجاد سازمان |-------------------->
 
@@ -61,3 +63,17 @@ class Organization_update(UpdateView):
 
     def get_success_url(self):
         return redirect('organization:detail', kwargs={'pk': self.object.pk})
+
+# <--------------------| API |-------------------->
+class OrganizationViewSetAPI(ModelViewSet):
+    serializer_class = serializers.OrganizationSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    queryset = models.Organization.objects.all()
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(creator=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user)
