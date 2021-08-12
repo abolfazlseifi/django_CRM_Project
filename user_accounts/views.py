@@ -4,7 +4,8 @@ from django.contrib.auth import login, get_user_model, authenticate, logout
 from django.contrib.auth.models import User
 
 
-# Create your views here
+# <--------------------| فرم ورود کاربر |-------------------->
+
 def login_user(request):
     if request.user.is_authenticated:
         return redirect('/')
@@ -25,6 +26,8 @@ def login_user(request):
     }
     return render(request, 'account/login.html', context)
 
+
+# <--------------------| فرم ثبت نام کاربر |-------------------->
 
 def register(request):
     if request.user.is_authenticated:

@@ -128,6 +128,7 @@ USE_L10N = True
 
 USE_TZ = True
 
+# <--------------------| تنظیمات ارسال فایل های استاتیک |-------------------->
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -149,7 +150,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "static_cdn", "media_root")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-####################################################################
+# <--------------------| تنظیمات ارسال ایمیل |-------------------->
 LOGIN_REDIRECT_URL = 'homepage'  # new
 LOGOUT_REDIRECT_URL = 'homepage'  # new
 LOGIN_URL = 'login'

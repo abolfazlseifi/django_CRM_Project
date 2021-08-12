@@ -3,46 +3,57 @@
 
 
 {% block content %}
-    <div class="text-center">
-        <h2>ویرایش {{ form.name.value }}</h2>
-    </div>
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="province_name">استان</label>
-            {% render_field form.province_name class+="form-control" type="select" %}
-        </div>
-        <div class="form-group">
-            <label for="organization_name">نام سازمان</label>
-            {% render_field form.organization_name class+="form-control" type="text" %}
-        </div>
-        <div class="form-group">
-            <label for="organization_phone">تلفن</label>
-            {% render_field form.organization_phone class+="form-control" type="text" %}
-        </div>
-        <div class="form-group">
-            <label for="organization_staff">تعداد کارگران</label>
-            {% render_field form.organization_staff class+="form-control" type="number" min="0" %}
-        </div>
-        <div class="form-group">
-            <label for="organization_product" class="form-label">محصولات تولیدی</label>
-            {% render_field form.organization_product class+="form-control" type="select" %}
-        </div>
-        <div class="form-group">
-            <label for="personnel_name">نام و نام خانوادگی مخاطب</label>
-            {% render_field form.personnel_name class+="form-control" type="text" %}
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="personnel_mobile">تلفن مخاطب</label>
-                {% render_field form.personnel_mobile class+="form-control" type="text" %}
-            </div>
-            <div class="form-group col-md-6">
-                <label for="personnel_email">ایمیل مخاطب</label>
-                {% render_field form.personnel_email class+="form-control" type="email" %}
-            </div>
-        </div>
 
-        <button type="submit" class="btn btn-primary">ذخیره</button>
-    </form>
+        <div class="container">
+        <section id="form"><!--form-->
+            <div class="row">
+                <div class="col-sm-4 col-sm-offset-1">
+                    <div class="text-center">
+                        <h2>ویرایش {{ form.name.value }}</h2>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="province_name">استان</label>
+                            {% render_field form.province_name class+="form-control" type="select" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="organization_name">نام سازمان</label>
+                            {% render_field form.organization_name class+="form-control" type="text" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="organization_phone">تلفن</label>
+                            {% render_field form.organization_phone class+="form-control" type="text" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="organization_staff">تعداد کارگران</label>
+                            {% render_field form.organization_staff class+="form-control" type="number" min="0" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="organization_product" class="form-label">محصولات تولیدی</label>
+                            {% render_field form.organization_product class+="form-control" type="select" %}
+                        </div>
+                        <div class="form-group">
+                            <label for="personnel_name">نام و نام خانوادگی مخاطب</label>
+                            {% render_field form.personnel_name class+="form-control" type="text" %}
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="personnel_mobile">تلفن مخاطب</label>
+                                {% render_field form.personnel_mobile class+="form-control" type="text" %}
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="personnel_email">ایمیل مخاطب</label>
+                                {% render_field form.personnel_email class+="form-control" type="email" %}
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">ذخیره</button>
+                    </form>                </div>
+                            </div>
+        </section>
+    </div>
+
+
+
 {% endblock %}

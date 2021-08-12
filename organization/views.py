@@ -5,6 +5,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from . import models, forms
 
 
+# <--------------------| فرم ایجاد سازمان |-------------------->
+
 class Organization_Form(CreateView):
     model = models.Organization
     form_class = forms.OrganizationForm
@@ -21,6 +23,8 @@ class Organization_Form(CreateView):
         return super().form_invalid(form)
 
 
+# <--------------------| لیست سازمان |-------------------->
+
 class Organization_List(ListView):
     model = models.Organization
     template_name = "organization/list_organization.html"
@@ -33,6 +37,8 @@ class Organization_List(ListView):
     #     return qs
 
 
+# <--------------------| جزپیات سازمان |-------------------->
+
 class Organization_Detail(DetailView):
     model = models.Organization
     template_name = 'organization/detail_organization.html'
@@ -42,6 +48,7 @@ class Organization_Detail(DetailView):
         return organization
 
 
+# <--------------------| ویرایش سازمان |-------------------->
 
 class Organization_update(UpdateView):
     model = models.Organization
@@ -53,4 +60,4 @@ class Organization_update(UpdateView):
         return organization
 
     def get_success_url(self):
-        return redirect ('organization:detail', kwargs={'pk': self.object.pk})
+        return redirect('organization:detail', kwargs={'pk': self.object.pk})

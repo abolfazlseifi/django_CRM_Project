@@ -81,19 +81,22 @@ class Follow_Up(CreateView):
     model = FollowUp
     form_class = forms.FollowUpForm
 
-    def get_queryset(self):
-        query = super().get_queryset()
-
-        if not self.request.user.is_superuser:
-            pk = self.kwargs.get('pk', None)
-            query = query.filter(creator=self.request.user, pk=pk)
-
-        return query
+    def get_form_kwargs(self):
+        kwargs = super(Follow_Up, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
     def form_valid(self, form):
-        form.instance.creator = self.request.user
-        form.save()
-        return super().form_valid(form)
+        form.instance.registrar_user = self.request.user
+        self.object = form.save()
+        return JsonResponse(data={
+            'success': True,
+        }, status=200)
+
+    def form_invalid(self, form):
+        return JsonResponse(data={
+            'success': False,
+        }, status=400)
 
 
 # <--------------------| لیست پیگیری |-------------------->

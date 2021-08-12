@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.core import validators
 
 
+# <--------------------| فرم ورود کاربر |-------------------->
+
 class LoginForm(forms.Form):
     user_name = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'لطفا نام کاربری خود را وارد نمایید'}),
@@ -22,6 +24,8 @@ class LoginForm(forms.Form):
 
         return user_name
 
+
+# <--------------------| فرم ثبت نام کاربر |-------------------->
 
 class RegisterForm(forms.Form):
     user_name = forms.CharField(

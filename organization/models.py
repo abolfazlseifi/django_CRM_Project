@@ -3,10 +3,14 @@ from django.contrib.auth import get_user_model
 from product.models import Product
 from django.core.validators import RegexValidator
 
+# <--------------------| رجکس |-------------------->
+
 email_regex = RegexValidator(regex='/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,3})$/', message='ایمیل شما معتبر نیست')
 mobile_regex = RegexValidator(regex='((\+98|0)?9\d{9})', message='موبایل شما معتبر نمی باشد')
 phone_regex = RegexValidator(regex='^((?:\+98|0)(\d){2}(\d){8})$', message='تلفن شما معتبر نمی باشد')
 
+
+# <--------------------| مدل محصول سازمان |-------------------->
 
 class OrganizationProduct(models.Model):
     name = models.CharField(max_length=50, verbose_name='محصولات تولیدی کارفرما')
@@ -18,21 +22,24 @@ class OrganizationProduct(models.Model):
     def __str__(self):
         return self.name
 
-
     def get_suggest_product(self):
         return [product for product in self.product_set.all()]
 
 
+# <--------------------| استان |-------------------->
 
 class Province(models.Model):
-    name = models.CharField(max_length=100, verbose_name="استان", unique=True )
+    name = models.CharField(max_length=100, verbose_name="استان", unique=True)
 
     class Meta():
         verbose_name = "استان"
-        verbose_name_plural ="استان ها"
+        verbose_name_plural = "استان ها"
 
     def __str__(self):
         return self.name
+
+
+# <--------------------| مدل سازمان |-------------------->
 
 class Organization(models.Model):
     province_name = models.CharField(max_length=20, verbose_name='استان')
@@ -47,7 +54,7 @@ class Organization(models.Model):
     creator = models.ForeignKey(get_user_model(), verbose_name='کاربر ثبت کننده', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ['organization_name','creator' ]
+        unique_together = ['organization_name', 'creator']
         verbose_name = 'سازمان'
         verbose_name_plural = 'سازمانها'
 

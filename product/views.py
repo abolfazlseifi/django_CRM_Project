@@ -4,12 +4,13 @@ from product.forms import ProductForm
 from product.models import Product
 
 
+# <--------------------| فرم ایجاد محصول |-------------------->
+
 class CreatProductForm(CreateView):
     form_class = ProductForm
     template_name = 'products/product_form.html'
     model = Product
-    success_url ='homepage'
-
+    success_url = 'homepage'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -23,10 +24,12 @@ class CreatProductForm(CreateView):
         return super().form_valid(form)
 
 
+# <--------------------| لیست محصولات |-------------------->
+
+
 class ProductsList(ListView):
     template_name = 'products/products_list.html'
     paginate_by = 6
-
 
     def get_queryset(self):
         search = self.request.GET.get('search', None)
