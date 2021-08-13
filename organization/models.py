@@ -39,7 +39,6 @@ class Province(models.Model):
         return self.name
 
 
-# <--------------------| مدل سازمان |-------------------->
 
 class Organization(models.Model):
     province_name = models.CharField(max_length=20, verbose_name='استان')

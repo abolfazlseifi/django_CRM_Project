@@ -6,6 +6,7 @@ from . import models, forms, serializers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from quote.models import FollowUp
 
 # <--------------------| فرم ایجاد سازمان |-------------------->
 
@@ -45,10 +46,15 @@ class Organization_Detail(DetailView):
     model = models.Organization
     template_name = 'organization/detail_organization.html'
 
-    def get_queryset(self):
-        organization = models.Organization.objects.filter(pk=self.kwargs['pk'], creator=self.request.user)
-        return organization
+    # def get_queryset(self):
+    #     organization = models.Organization.objects.filter(pk=self.kwargs['pk'], creator=self.request.user)
+    #     return organization
 
+    def get_context_data(self, **kwargs):
+        follow_up = FollowUp.objects.filter(organization_id=self.kwargs['pk'],)
+        organization = models.Organization.objects.get(pk=self.kwargs['pk'], creator=self.request.user)
+        context = {'follow_up':follow_up, 'organization': organization}
+        return context
 
 # <--------------------| ویرایش سازمان |-------------------->
 

@@ -22,7 +22,7 @@ from .views import home_page,header,footer
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
-from Organization.views import OrganizationViewSetAPI
+from organization.views import OrganizationViewSetAPI
 
 router = DefaultRouter()
 router.register('organization', OrganizationViewSetAPI)

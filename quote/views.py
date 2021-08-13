@@ -81,22 +81,24 @@ class Follow_Up(CreateView):
     model = FollowUp
     form_class = forms.FollowUpForm
 
-    def get_form_kwargs(self):
-        kwargs = super(Follow_Up, self).get_form_kwargs()
-        kwargs['request'] = self.request
-        return kwargs
-
-    def form_valid(self, form):
-        form.instance.registrar_user = self.request.user
-        self.object = form.save()
-        return JsonResponse(data={
-            'success': True,
-        }, status=200)
+    def get_context_data(self, **kwargs):
+        context = {
+            'organization': Organization.objects.get(pk=self.kwargs['pk']),
+        }
+        return context
 
     def form_invalid(self, form):
         return JsonResponse(data={
-            'success': False,
+            'success': 'False',
         }, status=400)
+
+    def form_valid(self, form):
+        form.save(commit=False).creator = self.request.user
+        form.save(commit=False).organization = Organization.objects.get(pk=self.kwargs['pk'])
+        form.save()
+        return JsonResponse(data={
+            'success': 'True',
+        }, status=200)
 
 
 # <--------------------| لیست پیگیری |-------------------->

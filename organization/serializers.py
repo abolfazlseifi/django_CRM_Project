@@ -6,14 +6,14 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Organization
         fields = (
-            'state',
-            'name',
-            'phone',
-            'workers_qty',
-            'organ_product',
-            'full_name_owner',
-            'phone_owner',
-            'email_owner',
-            'created_at',
-            'user_creator',
+            'province_name',
+            'organization_name',
+            'organization_phone',
+            'organization_staff',
+            'organization_product',
+            'personnel_name',
+            'personnel_mobile',
+            'personnel_email',
+            'timestamp',
+            'creator',
         )

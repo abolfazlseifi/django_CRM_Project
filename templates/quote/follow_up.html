@@ -4,102 +4,42 @@
 
 
 {% block content %}
-    <div class='row w-50 mt-lg-3' id='show-messages-alert' style='margin-left: 25%;'>
-        <p class='text-center' id='write-messages'></p>
+    <div class="text-center">
+        <h2>ثبت پیگیری</h2>
     </div>
-
-    <div class='row'>
-        <form method='POST' id='form-submit'>
-            {% csrf_token %}
-
-            <div class='text-center mt-lg-5 alert'>
-                <textarea id='id_content' name='content' class='form-control w-50' value='' placeholder="{% trans "متن پیگیری (گزارش کار) خود را برای سازمان مربوطه وارد کنید" %}" rows='10' maxlength='400' style="resize: none; margin-left: 25%;"></textarea>
-            </div>
-        </form>
-        <div class='text-center'>
-            <button id='btn-submit' class='btn btn-dark'>{% trans "ذخیره" %}</button>
+    <form method="post" id="formsubmit">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="text"></label>
+            <textarea id="text" name="text" rows="5"
+                      placeholder="{{ form.text.label }}"></textarea>
         </div>
-    </div>
-{% endblock content %}
 
+        <button type="submit" class="btn btn-primary" id="btnsubmit">ذخیره</button>
+    </form>
+{% endblock %}
 
 {% block scripts %}
     <script>
-        $(document).ready(
-            function() {
-                var form_submit = $("#form-submit");
-                var btn_submit = $("#btn-submit")
+        $(document).ready(function () {
+            $('#btnsubmit').on('click', function (event) {
+                var text = $('#text').val();
 
-                function getCookie(name) {
-                    let cookieValue = null;
-                    if (document.cookie && document.cookie !== '') {
-                        const cookies = document.cookie.split(';');
-                        for (let i = 0; i < cookies.length; i++) {
-                            const cookie = cookies[i].trim();
-                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
-                            }
-                        }
-                    }
-                    return cookieValue;
-                }
+                $.ajax({
+                    method: 'POST',
+                    url: '{% url 'quote:follow_up' organization.pk %}',
+                    data: {
+                        text: text
+                    },
+                    success: function (response) {
+                        alert('با موفقیت ذخیره شد.');
+                    },
+                    error: function (response) {
+                        alert('اطلاعات وارد شده صحیح نیست.');
+                    },
 
-                btn_submit.click(
-                    function () {
-                        const text_content = $('#id_content').val();
-                        const csrftoken = getCookie('csrftoken');
-                        const current_href = window.location.href;
-                        const sending_method = form_submit.attr('method');
-                        const serialized_data = form_submit.serialize();
-                        const show_alert_elm = $("#show-messages-alert");
-                        const write_messages = $("#write-messages");
-
-                        $.ajax(
-                            {
-                                url: current_href,
-                                headers: {'X-CSRFToken': csrftoken},
-                                type: sending_method ,
-                                data: serialized_data,
-                                success: function(response) {
-
-                                    if (show_alert_elm.find("alert-danger")) {
-                                        show_alert_elm.removeClass("alert-danger")
-                                    }
-
-                                    write_messages.html('');
-                                    show_alert_elm.addClass("alert-info");
-                                    write_messages.html(response['message']);
-                                },
-                                error: function(response){
-
-                                    if (show_alert_elm.find("alert-info")) {
-                                        show_alert_elm.removeClass("alert-info")
-                                    }
-
-                                    show_alert_elm.addClass("alert-danger");
-                                    write_messages.html('');
-
-                                    $(response.responseJSON.errors).each(
-                                        function (idx, obj) {
-                                            for (key in obj){
-                                                var messages = obj[key];
-                                                write_messages.append('<strong class="fw-bold">' + key + '</strong>' + '<br>');
-
-                                                for (var i=0; i<messages.length; i++){
-                                                    write_messages.append(messages[i] + '<br>');
-                                                }
-
-                                                write_messages.append('<br>');
-                                            }
-                                        }
-                                    );
-                                }
-                            }
-                        );
-                    }
-                );
-            }
-        );
+                })
+            });
+        });
     </script>
-{% endblock scripts %}
+{% endblock %}
